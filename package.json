@@ -1,0 +1,23 @@
+{
+  "name": "lambda-ping-service",
+  "version": "1.0.0",
+  "description": "AWS Lambda error response webhook function",
+  "main": "launchExpress.js",
+  "scripts": {
+    "test": "node Lambda/launchPingTest.js",
+    "dev": "node Lambda/launchExpress.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nster98/Lambda-Ping-Service.git"
+  },
+  "author": "Nathan Glikman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nster98/Lambda-Ping-Service/issues"
+  },
+  "homepage": "https://github.com/nster98/Lambda-Ping-Service#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
