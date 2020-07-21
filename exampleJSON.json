@@ -1,0 +1,26 @@
+var sitesToMonitor = [{
+
+  "url": "https://www.career.place",
+  "method": "GET",
+  "payload": {},
+  "validResponse": 200,
+  "errorNotificaiont": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/"
+    "https://hooks.zapier.com/"
+  ]
+}, {
+
+  "url": "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfSQQMw3cnJtETZxCBUwtFzWjyGNCYtsPvXBlrq_QGdPxRM2A/formResponse",
+  "method": "POST",
+  "payload": {
+    "entry.1008359269": 123,
+    "entry.50903667": "Monday"
+  },
+  "validResponse": 200,
+  "errorNotificaiont": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+}]
