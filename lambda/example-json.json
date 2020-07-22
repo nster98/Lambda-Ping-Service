@@ -1,12 +1,12 @@
-var sitesToMonitor = [{
+[{
 
   "url": "https://www.career.place",
   "method": "GET",
   "payload": {},
   "validResponse": 200,
-  "errorNotificaiont": [
+  "errorNotification": [
     "https://hooks.slack.com/",
-    "https://outlook.office.com/"
+    "https://outlook.office.com/",
     "https://hooks.zapier.com/"
   ]
 }, {
@@ -18,7 +18,7 @@ var sitesToMonitor = [{
     "entry.50903667": "Monday"
   },
   "validResponse": 200,
-  "errorNotificaiont": [
+  "errorNotification": [
     "https://hooks.slack.com/",
     "https://outlook.office.com/",
     "https://hooks.zapier.com/"
