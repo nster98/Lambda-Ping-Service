@@ -3,9 +3,24 @@ const express = require("express");
 const PORT = 3000;
 const app = express();
 
-app.get("/test", (req, res) => {
-    res.send("Hello World!");
+app.get("/a", (req, res) => {
+    res.send("This is test A, Successful GET");
 });
+
+app.post("/b", (req, res) => {
+    res.send("This is test B, Successful POST");
+    //res.sendFile('./lambda/testHTML.html', {root: '.'});
+});
+
+app.get("/c", (req, res) => {
+    res.status(403).send("This is test C, Failed GET");
+});
+
+app.post("/d", (req, res) => {
+    res.status(409).send("This is test D, Failed POST");
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);

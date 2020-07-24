@@ -1,0 +1,66 @@
+[{
+
+  "url": "http://localhost:3000/a",
+  "method": "GET",
+  "payload": {},
+  "validResponse": 200,
+  "errorNotification": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+}, {
+
+  "url": "http://localhost:3000/b",
+  "method": "POST",
+  "payload": {
+    "entry.1008359269": 123,
+    "entry.50903667": "Monday"
+  },
+  "validResponse": 200,
+  "errorNotification": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+
+}, {
+
+  "url": "http://localhost:3000/c",
+  "method": "GET",
+  "payload": {},
+  "validResponse": 200,
+  "errorNotification": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+}, {
+
+  "url": "http://localhost:3000/d",
+  "method": "POST",
+  "payload": {
+    "entry.1008359269": 123,
+    "entry.50903667": "Monday"
+  },
+  "validResponse": 200,
+  "errorNotification": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+}, {
+
+  "url": "http://localhost:3000/e",
+  "method": "POST",
+  "payload": {
+    "entry.1008359269": 123,
+    "entry.50903667": "Monday"
+  },
+  "validResponse": 200,
+  "errorNotification": [
+    "https://hooks.slack.com/",
+    "https://outlook.office.com/",
+    "https://hooks.zapier.com/"
+  ]
+}]

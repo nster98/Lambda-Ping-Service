@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/nster98/Lambda-Ping-Service#readme",
   "dependencies": {
+    "async": "^3.2.0",
     "express": "^4.17.1",
     "request": "^2.88.2"
   }
