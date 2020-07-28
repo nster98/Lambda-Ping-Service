@@ -3,85 +3,113 @@ const request = require('request');
 const async = require('async');
 const jsonData = require('./test-servers.json');
 
-function makeHTTPcallGET(info, callback) {
+function makeHTTPcallGET(info, cbMakeHTTPCallGet) {
 
-    let responseCode;
-    request.get(url, function(err, res, body) {
-        responseCode = res && res.statusCode;
-        console.log("URL:", info.url, "\t->\t", responseCode);
-
-    });
-
-    setTimeout(function() {
-        // If response is not equal to the expected resonse, trigger the error notification
-        if (responseCode !== info.validResponse)
-        {
-            callback(info)
+    request.get(info.url, function(errGetHTTP, resGetHTTP, bodyGetHTTP) {
+        if (errGetHTTP) {
+            console.error('errGetHTTP for url = ' + info.url);
+            return cbMakeHTTPCallGet(errGetHTTP);
         }
-    }, 3000);
+        console.log("URL:", info.url, "\t->\t", resGetHTTP.statusCode);
 
-}
-function makeHTTPcallPOST(info, callback) {
-
-    let responseCode;
-    request.post(url, {payload: info.payload}, function(err, res, body) {
-        responseCode = res && res.statusCode;
-        console.log("URL:", info.url, "\t->\t", responseCode);
-
-    });
-
-    setTimeout(function() {
-        // If response is not equal to the expected resonse, trigger the error notification
-        if (responseCode !== info.validResponse)
+        if (resGetHTTP.statusCode !== info.validResponse)
         {
-            callback(info)
+            console.error('unexpected response code of = ' + resGetHTTP.statusCode);
+            return cbMakeHTTPCallGet(new Error('unexpected response code = ' + resGetHTTP.statusCode));
         }
-    }, 3000);
 
-}
-function triggerError(param)
-{
-    for (var i = 0; i < param.errorNotification.length; i++)
-    {
-        request.post(
-            {
-                url:    param.url,
-            },
-            function(err, res, body) {}/*=> console.log(err, body, res.statusCode)*/
-        );
-    }
+        return cbMakeHTTPCallGet();
+    });
 }
 
-for (var key = 0; key < jsonData.length; key++)
+function makeHTTPcallPOST(info, cbMakeHTTPCallPost) {
+
+    request.post(info.url, {payload: info.payload}, function(errPostHTTP, resPostHTTP, bodyPostHTTP) {
+        if (errPostHTTP) {
+            console.error('errPostHTTP for url = ' + info.url);
+            return cbMakeHTTPCallPost(errPostHTTP);
+        }
+        console.log("URL:", info.url, "\t->\t", resPostHTTP.statusCode);
+
+        if (resPostHTTP.statusCode !== info.validResponse)
+        {
+            console.error('unexpected response code of = ' + resPostHTTP.statusCode);
+            return cbMakeHTTPCallPost(new Error('unexpected response code = ' + resPostHTTP.statusCode));
+        }
+
+        return cbMakeHTTPCallPost();
+    });
+}
+
+function triggerError(err, param)
 {
-    // Get URL and call it using NodeJS Request
-    // Use the method to do either GET or POST with the right payload
+    async.eachOf(param.errorNotification, function(value, key, cb) {
+
+        var webhook = param.errorNotification[key];
+        var payload = {};
+
+        if (webhook.includes("discordapp"))
+        {
+            payload = {
+                "method": 'POST',
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "username": "Career Place Test",
+                    "content": "" + err
+                })
+            };
+        }
+        else {
+            payload = {
+                method: 'POST',
+                body: {
+                    url: param.url
+                },
+                json: true
+            };
+        }
+
+        request.post(webhook, payload, function(err, res, body) {
+            console.log(body);
+        });
+    });
+}
+
+async.eachOf(jsonData, function(value, key, cb){
+    //console.log(jsonData[key].url);
     var info = jsonData[key];
 
-    var url = jsonData[key].url;
-    var method = jsonData[key].method;
-    var payload = jsonData[key].payload;
-    var validResponse = jsonData[key].validResponse
+    if (info.method === "GET") {
+        //tasks.push(function(cbTask) {
+            makeHTTPcallGET(info, function(errGet) {
+                if (errGet) {
+                    console.log("got error in GET for ", info.url);
+                    triggerError(errGet, info);
+                    cb(errGet);
+                }
 
-    var tasks = [];
-
-    // If the required check is a GET, simply call the URL and get a response code back
-    if (method === "GET") {
-        tasks.push(makeHTTPcallGET(info, triggerError), function(resp) {
-            console.log("Get response", resp);
-        });
+            });
+        //});
     }
 
     // If the required check is a POST, must use payload in the post when calling the URL
-    else if (method === "POST") {
-        tasks.push(makeHTTPcallPOST(info, triggerError), function(resp) {
-            console.log("Post response", resp);
-        });
+    else if (info.method === "POST") {
+        //tasks.push(function(cbTask) {
+            makeHTTPcallPOST(info, function(errPost) {
+                if (errPost) {
+                    console.log("got error in POST for ", info.url);
+                    triggerError(errPost, info);
+                    cb(errPost);
+                }
+                //return cbTask();
+            });
+        //});
     }
+}, function() {
 
-    //async.parallelLimit(tasks, 1);
-
-}
+});
 
 //exports.handler = function(event, handler, callback) => {
 
