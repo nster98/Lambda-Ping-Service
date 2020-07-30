@@ -9,7 +9,6 @@ app.get("/a", (req, res) => {
 
 app.post("/b", (req, res) => {
     res.send("This is test B, Successful POST");
-    //res.sendFile('./lambda/testHTML.html', {root: '.'});
 });
 
 app.get("/c", (req, res) => {

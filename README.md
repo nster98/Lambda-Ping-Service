@@ -10,7 +10,7 @@ npm install request async express
 ```
 ## Usage
 Requires JSON file with following fields:
-```json
+```
 {
 	"url": <url>, 				// URL to ping
 	"method": <GET or POST>, 	// HTTP method
@@ -19,7 +19,12 @@ Requires JSON file with following fields:
 	"errorNotification": []		// Array of webhooks to notify
 }
 ```
-//As of 7/30/20
+Must use your own webhook endpoints to send information to. Consult the respective webhook endpoint documentation for further instructions on how to set that up
+
+* [**Discord**]https://discord.com/developers/docs/resources/webhook
+* [**Microsoft Teams**]https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-using
+* [**Slack**]https://api.slack.com/messaging/webhooks
+
 To run, run the command
 ```bash
 npm run test

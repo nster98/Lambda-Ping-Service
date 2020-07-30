@@ -11,7 +11,6 @@ function makeHTTPcallGET(info, cbMakeHTTPCallGet) {
             console.error('errGetHTTP for url = ' + info.url);
             return cbMakeHTTPCallGet(errGetHTTP);
         }
-        //console.log("URL:", info.url, "\t->\t", resGetHTTP.statusCode);
 
         // If the response code recieved by the call is not one of the valid response codes, create an
         // error and use the callback function with the error
@@ -34,7 +33,6 @@ function makeHTTPcallPOST(info, cbMakeHTTPCallPost) {
             console.error('errPostHTTP for url = ' + info.url);
             return cbMakeHTTPCallPost(errPostHTTP);
         }
-        //console.log("URL:", info.url, "\t->\t", resPostHTTP.statusCode);
 
         // If the response code recieved by the call is not one of the valid response codes, create an
         // error and use the callback function with the error
@@ -67,17 +65,16 @@ function triggerError(err, param)
                 },
                 body: JSON.stringify({
                     "username": "Career Place Test",
-                    "avatar_url": "https://static.wixstatic.com/media/da32a0_968f9a4652fe4b0082dacb0b6551151c~mv2.png/v1/fill/w_320,h_322,al_c,q_95/Career_place%20widget.webp",
+                    "avatar_url": "",
                     "embeds": [
                         {
-                          "title": "Error: " + param.url,
-                          "description": "Error message: " + err,
-                          "url": param.url,
-                          "color": 14686489,
-                          "footer": {
-                            "text": ""
-                          },
-                          "timestamp": "2020-07-29T16:39:00.000Z"
+                            "title": "Error: " + param.url,
+                            "description": "Error message: " + err,
+                            "url": param.url,
+                            "color": 14686489,
+                            "footer": {
+                                "text": ""
+                            },
                         }
                     ]
                 })
@@ -148,9 +145,9 @@ async.eachOf(jsonData, function(value, key, cb) {
             if (errGet) {
                 console.log("got error in GET for ", info.url);
                 triggerError(errGet, info);
-                cb(errGet);
+                return cb(errGet);
             }
-
+            return cb(null, "Successful GET on" + info.url);
         });
     }
 
@@ -160,12 +157,20 @@ async.eachOf(jsonData, function(value, key, cb) {
             if (errPost) {
                 console.log("got error in POST for ", info.url);
                 triggerError(errPost, info);
-                cb(errPost);
+                return cb(errPost);
             }
+            return cb(null, "Successful POST on" + info.url);
         });
     }
-}, function() {
-
+}, function(err, result) {
+    if (err) {
+        console.error(err);
+        console.log("done with err");
+    }
+    else {
+        console.log(result);
+        console.log("done");
+    }
 });
 
 //exports.handler = function(event, handler, callback) => {
