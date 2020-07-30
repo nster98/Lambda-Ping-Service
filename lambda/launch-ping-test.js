@@ -1,4 +1,3 @@
-const fs = require('fs');
 const request = require('request');
 const async = require('async');
 const jsonData = require('./test-servers.json');
